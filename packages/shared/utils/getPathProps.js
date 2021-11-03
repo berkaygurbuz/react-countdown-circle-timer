@@ -6,6 +6,7 @@ export const getPathProps = (size, strokeWidth, rotation) => {
   const rotationIndicator = rotation === 'clockwise' ? '1,0' : '0,1'
 
   const pathLength = 2 * Math.PI * arcRadius
+  //If we change getpaths's paths, it will be work correctly.
   const path = `m ${halfSize},${halfStrokeWith}
           a ${arcRadius},${arcRadius} 0 ${rotationIndicator} 0,${arcDiameter}
           a ${arcRadius},${arcRadius} 0 ${rotationIndicator} 0,-${arcDiameter}`

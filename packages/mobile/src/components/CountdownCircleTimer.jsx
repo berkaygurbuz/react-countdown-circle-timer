@@ -1,15 +1,30 @@
 import React from 'react'
-import { View, Animated } from 'react-native'
-import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
+import { View, Animated, Dimensions } from 'react-native'
+import Svg, { Path, Defs, LinearGradient, Stop, Circle } from 'react-native-svg'
 import {
   DefsLinearGradient,
   countdownCircleTimerProps,
-  countdownCircleTimerDefaultProps,
 } from '@countdown-circle-timer/shared'
-import { TimeWrapper } from '.'
+import { TimeWrapper } from './TimeWrapper'
 import { useCountdown } from '../hooks'
 
 const AnimatedPath = Animated.createAnimatedComponent(Path)
+
+const windowHeight = Dimensions.get('window').height
+
+const countdownCircleTimerDefaultProps = {
+  size: windowHeight * 0.3078817,
+  // strokeWidth: windowHeight*0.0209359,
+  strokeWidth: 20,
+  trailColor: 'black',
+  trailStrokeWidth: windowHeight * 0.0199359,
+  isPlaying: false,
+  strokeLinecap: 'round',
+  isLinearGradient: false,
+  ariaLabel: 'Countdown timer',
+  children: null,
+  rotation: 'clockwise',
+}
 
 const CountdownCircleTimer = (props) => {
   const {
@@ -78,13 +93,14 @@ const CountdownCircleTimer = (props) => {
           d={path}
         />
         {isProgressPathVisible && (
+          //I think we have to change animatedPath settings
           <AnimatedPath
             fill="none"
             stroke={isLinearGradient ? `url(#${gradientId})` : animatedStroke}
             d={path}
-            strokeLinecap={strokeLinecap}
-            strokeWidth={strokeWidth}
-            strokeDasharray={pathLength}
+            // strokeLinecap={strokeLinecap}
+            strokeWidth="20"
+            strokeDasharray="2"
             strokeDashoffset={strokeDashoffset}
           />
         )}

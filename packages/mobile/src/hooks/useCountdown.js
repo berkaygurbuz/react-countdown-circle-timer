@@ -25,12 +25,13 @@ export const useCountdown = ({
   // to change them pass a new value to the "key" prop of the component, which will reinitialize/restart the timer and use the new props
   const { durationMilliseconds, startAt } = useRef({
     durationMilliseconds: duration * 1000,
-    startAt: getStartAt(initialRemainingTime, duration) * 1000, // in milliseconds
+    startAt:0,
+    // startAt: getStartAt(initialRemainingTime, duration) * 1000, // in milliseconds
   }).current
   const repeatTimeoutRef = useRef(null)
   const isMountedRef = useRef(false)
   const animatedElapsedTime = useRef(new Animated.Value(0)).current
-  const totalElapsedTime = useRef((startAt / 1000) * -1) // in seconds
+  const totalElapsedTime = useRef((startAt / 1000) * +1) // in seconds
   const { path, pathLength } = getPathProps(size, strokeWidth, rotation)
   const gradientId = useMemo(() => getGradientId(gradientUniqueKey), [
     gradientUniqueKey,
@@ -88,11 +89,12 @@ export const useCountdown = ({
           setIsInFinishedState(true)
 
           if (typeof onComplete === 'function') {
-            totalElapsedTime.current += durationMilliseconds / 1000
-
+            totalElapsedTime.current -= durationMilliseconds / 1000
             const [shouldRepeat = false, delay = 0] =
-              onComplete(totalElapsedTime.current) || []
+            onComplete(totalElapsedTime.current) || []
 
+
+            
             if (shouldRepeat && isMountedRef.current) {
               repeatTimeoutRef.current = setTimeout(() => {
                 // reset animation and start over
